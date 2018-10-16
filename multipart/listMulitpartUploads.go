@@ -18,7 +18,7 @@ const (
 )
 
 func initS3Client() *s3.S3 {
-	// 构建配置项
+	// initial config
 	cfg := &aws.Config{
 		Region:                        aws.String("us-east-1"), //By default, Don't edit it
 		Credentials:                   credentials.NewStaticCredentials(ACCESS_KEY, SECRET_KEY, ""),
@@ -27,7 +27,7 @@ func initS3Client() *s3.S3 {
 		S3ForcePathStyle:              aws.Bool(true),
 	}
 
-	// 实例化 Session 对象
+	// new session
 	sess := session.Must(session.NewSession(cfg))
 
 	// new svc
@@ -36,18 +36,15 @@ func initS3Client() *s3.S3 {
 	return svc
 }
 
-func listObject(svc *s3.S3) {
-	input := &s3.ListObjectsInput{
-		Bucket:  aws.String(BUCKET_NAME),
-		MaxKeys: aws.Int64(2),
+func listMulitpartUploads(svc *s3.S3) {
+	input := &s3.ListMultipartUploadsInput{
+		Bucket: aws.String(BUCKET_NAME),
 	}
 
-	result, err := svc.ListObjects(input)
+	result, err := svc.ListMultipartUploads(input)
 	if err != nil {
 		if aerr, ok := err.(awserr.Error); ok {
 			switch aerr.Code() {
-			case s3.ErrCodeNoSuchBucket:
-				fmt.Println(s3.ErrCodeNoSuchBucket, aerr.Error())
 			default:
 				fmt.Println(aerr.Error())
 			}
@@ -62,5 +59,5 @@ func listObject(svc *s3.S3) {
 
 func main() {
 	svc := initS3Client()
-	listObject(svc)
+	listMulitpartUploads(svc)
 }
