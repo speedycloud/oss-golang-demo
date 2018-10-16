@@ -11,10 +11,10 @@ import (
 )
 
 const (
-	ACCESS_KEY = "liul"
-	SECRET_KEY = "liul123"
-	BUCKET_NAME = "software"
-	ENDPOINT   = "https://oss-cn-shanghai.speedycloud.org"
+	ACCESS_KEY = "FIXME"
+	SECRET_KEY = "FIXME"
+	BUCKET_NAME = "FIXME"
+	ENDPOINT   = "FIXME"
 )
 
 func initS3Client() *s3.S3 {
